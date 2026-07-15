@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-CF8L0Gwd.js";import{n as t}from"./Match-D5IxrkzW.js";var n=e();function r(){return(0,n.jsx)(`div`,{"data-frontend":``,className:`font-sans`,children:(0,n.jsx)(t,{})})}export{r as component};

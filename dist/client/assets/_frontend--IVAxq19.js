@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-CF8L0Gwd.js";var t=e();function n(){return(0,t.jsx)(`article`,{className:`pt-16 pb-24`,children:`Hello, world!`})}export{n as component};
