@@ -1,8 +1,7 @@
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { buildFigmaConfig } from '@payloadcms/figma'
 import { mcpPlugin } from '@payloadcms/plugin-mcp'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
@@ -14,21 +13,16 @@ import { Tags } from './collections/Tags'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-export default buildConfig({
+export default buildFigmaConfig({
+  figma: {},
   admin: {
     user: Users.slug,
   },
   collections: [Users, Media, Folders, Tags],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URL || '',
-    },
-  }),
   sharp,
   localization: {
     locales: ['en'],
