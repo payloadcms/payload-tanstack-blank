@@ -11,13 +11,27 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig(
   withPayload(
-    ({ pluginOptions }) => ({
+    ({ env, pluginOptions }) => ({
       plugins: [
         rsc(pluginOptions.rsc),
         tanstackStart(pluginOptions.tanstackStart),
         viteReact(pluginOptions.react),
-        nitro({ preset: 'node-server', traceDeps: ['ajv*'] }),
+        // nitro's node-server preset is a build/deploy concern; its dev runtime
+        // bypasses Payload's SSR `.css`-stripping transform and crashes on
+        // `@payloadcms/ui`'s `dist/**/*.css` imports. Only wire it for `build`.
+        ...(env.command === 'build'
+          ? [nitro({ preset: 'node-server', traceDeps: ['ajv*'], noExternals: [/^@payloadcms\//] })]
+          : []),
       ],
+      // `@payloadcms/figma` isn't in Payload's default `noExternalPatterns`, so
+      // Vite externalizes it in dev SSR. Node then loads it — and its transitive
+      // `@payloadcms/ui/dist/**/*.css` imports — through the raw loader, which
+      // has no `.css` handler. Force it through Vite in both server envs so the
+      // dist-style-import strip applies. Merged (concatenated) onto Payload's list.
+      environments: {
+        rsc: { resolve: { noExternal: [/^@payloadcms\/figma/] } },
+        ssr: { resolve: { noExternal: [/^@payloadcms\/figma/] } },
+      },
       resolve: {
         alias: [
           // Project `@/` → `src/` alias.
