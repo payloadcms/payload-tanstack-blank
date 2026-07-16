@@ -1,1 +1,0 @@
-import{n as e}from"./Match-D5IxrkzW.js";import{t}from"./RouterAdapter-Cr-G0SVN.js";var n={TanStackRouterAdapter:t},r={Outlet:e};export{n as export_0b9318a81f71,r as export_a617b9f402f7};
