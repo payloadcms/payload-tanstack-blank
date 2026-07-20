@@ -17,9 +17,6 @@ export default buildFigmaConfig({
   figma: {},
   admin: {
     user: Users.slug,
-    importMap: {
-      importMapFile: path.resolve(dirname, 'importMap.js'),
-    },
   },
   collections: [Users, Media, Folders, Tags],
   editor: lexicalEditor(),
